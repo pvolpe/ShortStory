@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Short Stories</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+    <a href="#/" class="brand">Short Stories</a>
+    <div class="topbar-actions">
+        <span id="user-email" class="user-email"></span>
+        <a href="#/new" class="btn btn-primary">New story</a>
+        <button id="logout-btn" class="btn" type="button">Log out</button>
+    </div>
+</header>
+
+<main id="app" class="container"></main>
+
+<template id="tpl-list">
+    <div class="toolbar">
+        <input type="search" id="search" placeholder="Search by title or author" autocomplete="off">
+    </div>
+    <ul id="story-list" class="story-list"></ul>
+    <p id="empty" class="empty" hidden>No stories yet. <a href="#/new">Write the first one.</a></p>
+</template>
+
+<template id="tpl-view">
+    <article class="story">
+        <h1 class="story-title"></h1>
+        <p class="story-author"></p>
+        <p class="story-reads"></p>
+        <div class="story-body"></div>
+        <div class="actions">
+            <a class="btn" href="#/">Back</a>
+            <a class="btn edit-link">Edit</a>
+            <button class="btn btn-danger delete-btn" type="button">Delete</button>
+        </div>
+    </article>
+</template>
+
+<template id="tpl-form">
+    <form class="story-form" novalidate>
+        <h1 class="form-heading"></h1>
+        <label>Title
+            <input name="title" maxlength="200" required>
+        </label>
+        <label>Author
+            <input name="author" maxlength="100" readonly>
+        </label>
+        <label>Story
+            <textarea name="body" rows="16" required></textarea>
+        </label>
+        <p class="error" hidden></p>
+        <div class="actions">
+            <a class="btn cancel-link" href="#/">Cancel</a>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </form>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

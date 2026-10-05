@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up – Short Stories</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<main class="auth">
+    <h1 class="brand">Short Stories</h1>
+    <form class="auth-card" method="post" th:action="@{/signup}" th:object="${form}" novalidate>
+        <h2>Create an account</h2>
+
+        <label>Email
+            <input type="email" th:field="*{email}" autocomplete="email" required autofocus>
+            <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </label>
+        <label>Display name
+            <input type="text" th:field="*{displayName}" autocomplete="nickname" maxlength="100" required>
+            <span class="hint" th:unless="${#fields.hasErrors('displayName')}">Shown as the author of your stories.</span>
+            <span class="field-error" th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}"></span>
+        </label>
+        <label>Password
+            <input type="password" th:field="*{password}" autocomplete="new-password" minlength="8" required>
+            <span class="hint" th:unless="${#fields.hasErrors('password')}">At least 8 characters.</span>
+            <span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </label>
+        <label>Confirm password
+            <input type="password" th:field="*{confirmPassword}" autocomplete="new-password" required>
+            <span class="field-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+        </label>
+        <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+        <p class="switch">Already have an account? <a th:href="@{/login}">Log in</a></p>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,152 @@
+:root {
+    --bg: #faf8f5;
+    --surface: #ffffff;
+    --text: #2b2b2b;
+    --muted: #6b6b6b;
+    --border: #e4e0da;
+    --accent: #8a4b2a;
+    --accent-text: #ffffff;
+    --danger: #b3261e;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1b1a19;
+        --surface: #252321;
+        --text: #ece8e3;
+        --muted: #a29d96;
+        --border: #3a3734;
+        --accent: #d08a5f;
+        --accent-text: #1b1a19;
+        --danger: #ef7a72;
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+a { color: var(--accent); }
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.brand {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn-danger { color: var(--danger); }
+.btn-danger:hover { border-color: var(--danger); }
+
+.toolbar { margin-bottom: 16px; }
+
+input, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+textarea { resize: vertical; font-family: Georgia, "Times New Roman", serif; }
+
+.story-list { list-style: none; padding: 0; margin: 0; }
+.story-list li { margin-bottom: 12px; }
+.story-card {
+    display: block;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+}
+.story-card:hover { border-color: var(--accent); }
+.story-card h2 { margin: 0 0 4px; font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; }
+.story-card .meta { margin: 0 0 8px; color: var(--muted); font-size: 0.9rem; }
+.story-card .excerpt { margin: 0; color: var(--muted); }
+
+.empty { color: var(--muted); text-align: center; margin-top: 48px; }
+
+.story-title { font-family: Georgia, "Times New Roman", serif; font-size: 2rem; margin: 0 0 4px; }
+.story-author { color: var(--muted); margin: 0 0 4px; }
+.story-reads { color: var(--muted); font-size: 0.9rem; margin: 0 0 24px; }
+.story-body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+
+.story-form label { display: block; margin-bottom: 16px; font-weight: 600; }
+.story-form label input, .story-form label textarea { margin-top: 6px; font-weight: normal; }
+.error { color: var(--danger); }
+
+/* ---- Top bar user menu ---- */
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+.user-email { color: var(--muted); font-size: 0.9rem; overflow-wrap: anywhere; }
+@media (max-width: 560px) { .user-email { display: none; } }
+
+/* ---- Login / sign-up pages ---- */
+.auth {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 48px 16px;
+}
+.auth .brand { display: block; text-align: center; margin: 0 0 24px; }
+.auth-card {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+}
+.auth-card h2 { margin: 0 0 16px; font-size: 1.25rem; }
+.auth-card label { display: block; margin-bottom: 16px; font-weight: 600; }
+.auth-card label input { margin-top: 6px; font-weight: normal; }
+.auth-card .error, .auth-card .notice { margin: 0 0 16px; }
+.notice { color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; }
+.hint, .field-error { display: block; margin-top: 4px; font-size: 0.85rem; font-weight: normal; }
+.hint { color: var(--muted); }
+.field-error { color: var(--danger); }
+.btn-block { width: 100%; }
+.switch { margin: 16px 0 0; text-align: center; color: var(--muted); }
