@@ -95,9 +95,11 @@
     // ---- Read ----
     let readObserver = null;
 
-    function readCountText(count) {
-        if (count === 0) return 'Not read yet';
-        return 'Read ' + count + (count === 1 ? ' time' : ' times');
+    function readCountText(story) {
+        if (story.readCount === 0) return 'Not read yet';
+        const times = 'Read ' + story.readCount + (story.readCount === 1 ? ' time' : ' times');
+        const readers = ' by ' + story.readerCount + (story.readerCount === 1 ? ' reader' : ' readers');
+        return times + readers;
     }
 
     async function storyView(id) {
@@ -106,7 +108,7 @@
         document.title = story.title + ' – Short Stories';
         app.querySelector('.story-title').textContent = story.title;
         app.querySelector('.story-author').textContent = 'by ' + story.author;
-        app.querySelector('.story-reads').textContent = readCountText(story.readCount);
+        app.querySelector('.story-reads').textContent = readCountText(story);
         app.querySelector('.story-body').textContent = story.body;
         app.querySelector('.edit-link').href = '#/edit/' + story.id;
         app.querySelector('.delete-btn').addEventListener('click', async () => {
@@ -130,7 +132,7 @@
             readObserver.disconnect();
             request(API + '/' + id + '/read', { method: 'POST' }).then(updated => {
                 const reads = app.querySelector('.story-reads');
-                if (reads) reads.textContent = readCountText(updated.readCount);
+                if (reads) reads.textContent = readCountText(updated);
             }).catch(() => { /* non-essential */ });
         });
         readObserver.observe(actions);

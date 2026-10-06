@@ -39,6 +39,10 @@ public class ShortStory {
     @Column(name = "read_count", nullable = false, columnDefinition = "INTEGER NOT NULL DEFAULT 0")
     private long readCount = 0;
 
+    // How many different users have read the story (each user counts once). Same DEFAULT 0 reason as readCount.
+    @Column(name = "reader_count", nullable = false, columnDefinition = "INTEGER NOT NULL DEFAULT 0")
+    private long readerCount = 0;
+
     public ShortStory() {
     }
 
@@ -86,5 +90,13 @@ public class ShortStory {
 
     public void setReadCount(long readCount) {
         this.readCount = readCount;
+    }
+
+    public long getReaderCount() {
+        return readerCount;
+    }
+
+    public void setReaderCount(long readerCount) {
+        this.readerCount = readerCount;
     }
 }
