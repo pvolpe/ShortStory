@@ -140,6 +140,43 @@ class ShortStoryControllerTest {
     }
 
     @Test
+    void meReportsDistinctStoriesRead() throws Exception {
+        // Other tests in this class also mark stories read for ada@example.com, so compare
+        // against a baseline taken here rather than an absolute count.
+        MvcResult before = mvc.perform(get("/api/me")).andExpect(status().isOk()).andReturn();
+        Matcher baseline = Pattern.compile("\"storiesRead\":(\\d+)").matcher(before.getResponse().getContentAsString());
+        baseline.find();
+        int storiesReadBefore = Integer.parseInt(baseline.group(1));
+
+        MvcResult first = mvc.perform(post("/api/stories").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"The Watch\",\"body\":\"Tock.\"}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+        MvcResult second = mvc.perform(post("/api/stories").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"title\":\"The Key\",\"body\":\"Click.\"}"))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Matcher m1 = Pattern.compile("\"id\":(\\d+)").matcher(first.getResponse().getContentAsString());
+        m1.find();
+        String id1 = m1.group(1);
+        Matcher m2 = Pattern.compile("\"id\":(\\d+)").matcher(second.getResponse().getContentAsString());
+        m2.find();
+        String id2 = m2.group(1);
+
+        // Reading the same story twice still only counts once
+        mvc.perform(post("/api/stories/" + id1 + "/read").with(csrf())).andExpect(status().isOk());
+        mvc.perform(post("/api/stories/" + id1 + "/read").with(csrf())).andExpect(status().isOk());
+        mvc.perform(post("/api/stories/" + id2 + "/read").with(csrf())).andExpect(status().isOk());
+
+        mvc.perform(get("/api/me"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.storiesRead").value(storiesReadBefore + 2));
+    }
+
+    @Test
     void rejectsBlankFields() throws Exception {
         mvc.perform(post("/api/stories").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)

@@ -2,6 +2,7 @@ package com.example.shortstory.controller;
 
 import com.example.shortstory.model.AppUser;
 import com.example.shortstory.repository.AppUserRepository;
+import com.example.shortstory.repository.StoryReadRepository;
 import com.example.shortstory.security.SecurityConfig;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -22,10 +23,12 @@ import java.util.Map;
 public class AuthController {
 
     private final AppUserRepository users;
+    private final StoryReadRepository reads;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(AppUserRepository users, PasswordEncoder passwordEncoder) {
+    public AuthController(AppUserRepository users, StoryReadRepository reads, PasswordEncoder passwordEncoder) {
         this.users = users;
+        this.reads = reads;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -67,13 +70,15 @@ public class AuthController {
     }
 
     // email: shown in the top bar. name: the author name new stories will get.
+    // storiesRead: how many different stories this user has read.
     @GetMapping("/api/me")
     @ResponseBody
-    public Map<String, String> me(Authentication auth) {
+    public Map<String, Object> me(Authentication auth) {
         AppUser user = users.findByEmail(auth.getName()).orElse(null);
-        Map<String, String> me = new LinkedHashMap<>();
+        Map<String, Object> me = new LinkedHashMap<>();
         me.put("email", auth.getName());
         me.put("name", user == null ? auth.getName() : user.authorName());
+        me.put("storiesRead", user == null ? 0 : reads.countByUserId(user.getId()));
         return me;
     }
 

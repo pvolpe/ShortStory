@@ -8,6 +8,9 @@ public interface StoryReadRepository extends JpaRepository<StoryRead, Long> {
 
     boolean existsByStoryIdAndUserId(Long storyId, Long userId);
 
+    // One row per (story, user), so this is the count of distinct stories the user has read
+    long countByUserId(Long userId);
+
     // Derived deletes need a transaction; without one Spring Data throws
     @Transactional
     void deleteByStoryId(Long storyId);

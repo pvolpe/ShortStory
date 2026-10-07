@@ -212,7 +212,9 @@
     });
 
     request('/api/me').then(me => {
-        document.getElementById('user-email').textContent = me.email;
+        const n = me.storiesRead;
+        document.getElementById('user-email').textContent =
+            me.name + ' · ' + n + (n === 1 ? ' story read' : ' stories read');
     }).catch(() => { /* non-essential */ });
 
     window.addEventListener('hashchange', route);
